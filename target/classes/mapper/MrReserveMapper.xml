@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liscva.mettingroom.mapper.MrReserveMapper">
+
+    <select id="getCurrUserReserveDayList" resultType="java.lang.String">
+        select distinct mrd.t_day_time from mr_reserve_day_time mrd
+            left join mr_reserve mr on mr.reserve_id = mrd.t_reserve_after_id or mr.reserve_id = mrd.t_reserve_before_id
+        where mr.reserve_user = '${userCode}' and mrd.t_day_time like '${month}%'
+    </select>
+</mapper>
