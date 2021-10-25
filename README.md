@@ -1,8 +1,14 @@
 # mettingroom
+
+
 会议预约系统后台,使用springboot + mybatis-plus + +mysql + smart-doc
 
 需搭配前台程序使用[前台程序](https://github.com/Liscva/mettingroom-vue)
 
+
+
+
+部分后台功能正在开发中
 # 安装方式
 ## 1.导入项目
 引入lib目录下面所有的jar包
