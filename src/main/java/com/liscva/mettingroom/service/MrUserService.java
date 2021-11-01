@@ -1,13 +1,20 @@
 package com.liscva.mettingroom.service;
 
+import com.liscva.framework.core.connect.FinalConnect;
 import com.liscva.mettingroom.entity.dto.DayTimeDto;
+import com.liscva.mettingroom.entity.dto.DeleteUserDto;
+import com.liscva.mettingroom.entity.dto.EditUserDto;
 import com.liscva.mettingroom.entity.dto.LoginDto;
 import com.liscva.mettingroom.entity.dto.RegisterUser;
+import com.liscva.mettingroom.entity.dto.ResetPwdUserDto;
+import com.liscva.mettingroom.entity.dto.SearchUserDto;
 import com.liscva.mettingroom.entity.po.MrReserveDayTime;
 import com.liscva.mettingroom.entity.po.MrUser;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.liscva.mettingroom.entity.vo.UserInfo;
+import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -37,7 +44,7 @@ public interface MrUserService extends IService<MrUser> {
      * @date 2021/10/12 15:02
      * @return java.util.List<com.liscva.mettingroom.entity.vo.UserInfo>
      */
-    List<UserInfo> findUserList();
+    List<UserInfo> findUserList(SearchUserDto searchUserDto);
 
     /**
      * 新增用户
@@ -47,5 +54,28 @@ public interface MrUserService extends IService<MrUser> {
      */
     void registerUser(RegisterUser registerUser);
 
+    /**
+     * 重置密码
+     * @author liscva
+     * @date 2021/11/1 11:49
+     * @param resetPwdUserDto
+     */
+    void resetPassword(ResetPwdUserDto resetPwdUserDto);
+
+    /**
+     * 删除一个用户
+     * @author liscva
+     * @date 2021/11/1 16:11
+     * @param deleteUserDto
+     */
+    void deleteUser(DeleteUserDto deleteUserDto);
+
+    /**
+     * 修改一个用户
+     * @author liscva
+     * @date 2021/11/1 16:26
+     * @param editUserDto
+     */
+    void editUser(EditUserDto editUserDto);
 
 }

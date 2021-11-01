@@ -1,10 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.liscva.mettingroom.mapper.MrUserMapper">
+    <update id="resetPassword">
+        update mr_user set user_password = #{userPassword} where user_account=#{userAccount}
+    </update>
+    <update id="updateUserInfoBy">
+        update mr_user_info
+            <set>
+                user_email = #{userEmail},
+                user_phone = #{userPhone},
+                user_name = #{userName},
+            </set>
+            <where>
+                user_code = (select user_code from mr_user where user_account=#{userAccount})
+            </where>
+    </update>
+    <delete id="deleteUserUserInfo">
+        delete from mr_user_info where user_code = (select user_code from mr_user where user_account=#{userAccount})
+    </delete>
+    <delete id="deleteUser">
+        delete from mr_user where user_account=#{userAccount}
+    </delete>
+
 
     <select id="findUserList" resultType="com.liscva.mettingroom.entity.vo.UserInfo">
-        select mu.user_code,mui.user_name,mui.user_email,mui.user_phone,mui.create_time
+        select mu.user_code,mu.user_account,mui.user_name,mui.user_email,mui.user_phone,mui.create_time
         from mr_user mu
         left join mr_user_info mui on mu.user_code = mui.user_code
+        <where>
+            <if test="userName!=null and userName!=''">
+                mui.user_name like '%${userName}%'
+            </if>
+        </where>
     </select>
 </mapper>

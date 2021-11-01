@@ -4,6 +4,11 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 
+/**
+ * 查询当前用户预约天数集合信息的实体
+ * @author liscva
+ * @date 2021/11/1 10:48
+ */
 @Data
 public class CurrUserReserveDayListSearchDto {
 

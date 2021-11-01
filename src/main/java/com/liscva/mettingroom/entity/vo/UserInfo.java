@@ -8,6 +8,11 @@ import java.io.Serializable;
 public class UserInfo implements Serializable {
 
     /**
+     * 用户登录名
+     */
+    private String userAccount;
+
+    /**
      * 用户编码
      */
     private Integer userCode;
