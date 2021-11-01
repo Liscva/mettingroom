@@ -5,12 +5,16 @@ import com.liscva.framework.core.connect.DefaultPublicConnect;
 import com.liscva.framework.core.connect.FinalConnect;
 import com.liscva.mettingroom.cache.Cache;
 import com.liscva.mettingroom.cache.SessionCache;
+import com.liscva.mettingroom.entity.dto.DeleteUserDto;
+import com.liscva.mettingroom.entity.dto.EditUserDto;
 import com.liscva.mettingroom.entity.dto.LoginDto;
 import com.liscva.mettingroom.entity.dto.RegisterUser;
-import com.liscva.mettingroom.entity.dto.ReserveDto;
+import com.liscva.mettingroom.entity.dto.ResetPwdUserDto;
+import com.liscva.mettingroom.entity.dto.SearchUserDto;
 import com.liscva.mettingroom.entity.vo.UserInfo;
 import com.liscva.mettingroom.service.MrUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -54,8 +58,27 @@ public class MrUserController {
 
 
     @GetMapping("/findUserList.htm")
-    public FinalConnect findUserList(){
-        return DefaultPublicConnect.of(mrUserService.findUserList());
+    public FinalConnect findUserList(SearchUserDto searchUserDto){
+        return DefaultPublicConnect.of(mrUserService.findUserList(searchUserDto));
     }
 
+    @PostMapping("/resetPassword.htm")
+    public FinalConnect resetPassword(@Valid @RequestBody ResetPwdUserDto resetPwdUserDto ){
+        mrUserService.resetPassword(resetPwdUserDto);
+        return DefaultPublicConnect.of("重置成功,默认密码123456");
+    }
+
+
+
+    @PostMapping("/deleteUser.htm")
+    public FinalConnect deleteUser(@Valid @RequestBody DeleteUserDto deleteUserDto ){
+        mrUserService.deleteUser(deleteUserDto);
+        return DefaultPublicConnect.of("删除成功！");
+    }
+
+    @PostMapping("/editUser.htm")
+    public FinalConnect editUser(@Valid @RequestBody EditUserDto editUserDto ){
+        mrUserService.editUser(editUserDto);
+        return DefaultPublicConnect.of("修改成功！");
+    }
 }

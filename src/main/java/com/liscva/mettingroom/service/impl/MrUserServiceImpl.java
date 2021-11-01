@@ -2,9 +2,14 @@ package com.liscva.mettingroom.service.impl;
 
 import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.liscva.framework.core.lang.Assert;
+import com.liscva.mettingroom.entity.dto.DeleteUserDto;
+import com.liscva.mettingroom.entity.dto.EditUserDto;
 import com.liscva.mettingroom.entity.dto.LoginDto;
 import com.liscva.mettingroom.entity.dto.RegisterUser;
+import com.liscva.mettingroom.entity.dto.ResetPwdUserDto;
+import com.liscva.mettingroom.entity.dto.SearchUserDto;
 import com.liscva.mettingroom.entity.po.MrUser;
 import com.liscva.mettingroom.entity.po.MrUserInfo;
 import com.liscva.mettingroom.entity.vo.UserInfo;
@@ -35,6 +40,7 @@ public class MrUserServiceImpl extends ServiceImpl<MrUserMapper, MrUser> impleme
     public final static Integer USER_STATUS_ENABLE = 0;
     public final static Integer USER_STATUS_DISABLE = 1;
     public final static Integer USER_STATUS_DELETE = 2;
+    public final static String USER_DEFAULE_PWD = "123456";
 
     @Resource
     MrUserMapper mrUserMapper;
@@ -57,8 +63,8 @@ public class MrUserServiceImpl extends ServiceImpl<MrUserMapper, MrUser> impleme
     }
 
     @Override
-    public List<UserInfo> findUserList() {
-        return mrUserMapper.findUserList();
+    public List<UserInfo> findUserList(SearchUserDto searchUserDto) {
+        return mrUserMapper.findUserList(searchUserDto);
     }
 
     @Override
@@ -71,5 +77,33 @@ public class MrUserServiceImpl extends ServiceImpl<MrUserMapper, MrUser> impleme
         mrUserInfo.setUserCode(mrUser.getUserCode());
         mrUserInfo.setCreateTime(LocalDate.now().toString());
         userInfoService.save(mrUserInfo);
+    }
+
+    @Override
+    public void resetPassword(ResetPwdUserDto resetPwdUserDto) {
+        MrUser mrUser = new MrUser();
+        mrUser.setUserAccount(resetPwdUserDto.getUserAccount());
+        mrUser.setUserPassword(SecureUtil.md5(USER_DEFAULE_PWD));
+        mrUserMapper.resetPassword(mrUser);
+    }
+
+    @Override
+    @Transactional
+    public void deleteUser(DeleteUserDto deleteUserDto) {
+        if(deleteUserDto.getSoftDelete()){
+            //1.如果为软删除，则改变数据库状态
+            UpdateWrapper updateWrapper = new UpdateWrapper();
+            updateWrapper.eq("user_account", deleteUserDto.getUserAccount());
+            updateWrapper.set("user_status", "2");
+            mrUserMapper.update(null, updateWrapper);
+        }else{
+            mrUserMapper.deleteUserUserInfo(deleteUserDto);
+            mrUserMapper.deleteUser(deleteUserDto);
+        }
+    }
+
+    @Override
+    public void editUser(EditUserDto editUserDto) {
+        mrUserMapper.updateUserInfoBy(editUserDto);
     }
 }
