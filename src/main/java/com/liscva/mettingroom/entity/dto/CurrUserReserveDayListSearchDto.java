@@ -23,4 +23,10 @@ public class CurrUserReserveDayListSearchDto {
      */
     @NotBlank(message = "查询用户ID不能为空")
     private String userCode;
+
+    /**
+     * 会议室ID
+     */
+    @NotBlank(message = "会议室ID")
+    private String areaId;
 }

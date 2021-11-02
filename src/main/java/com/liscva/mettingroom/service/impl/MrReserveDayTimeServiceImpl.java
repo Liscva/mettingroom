@@ -117,7 +117,7 @@ public class MrReserveDayTimeServiceImpl extends ServiceImpl<MrReserveDayTimeMap
     }
 
     @Override
-    public List<MrReserveDayTime> getDayTimeList(DayTimeDto dayTimeDto) {
+    public List<MrReserveDayTime> getDayTimeList(int areaId,DayTimeDto dayTimeDto) {
         String mettingBeginTime = dayTimeDto.getStartTime();
         if(StrUtil.isEmpty(mettingBeginTime))
             mettingBeginTime = mrConfigService.queryMrConfigValueByConfigCode("mettingBeginTime");
@@ -128,6 +128,7 @@ public class MrReserveDayTimeServiceImpl extends ServiceImpl<MrReserveDayTimeMap
         queryWrapper.eq("t_day_time",dayTimeDto.getDay());
         queryWrapper.ge("t_timestamp",mettingBeginTime);
         queryWrapper.le("t_timestamp",mettingEndTime);
+        queryWrapper.le("t_area_id",areaId);
         return mrReserveDayTimeMapper.selectList(queryWrapper);
     }
 
@@ -146,6 +147,7 @@ public class MrReserveDayTimeServiceImpl extends ServiceImpl<MrReserveDayTimeMap
             UpdateWrapper updateWrapper = new UpdateWrapper();
             updateWrapper.eq("t_day_time",mrReserveDayTime.getTDayTime());
             updateWrapper.eq("t_timestamp",mrReserveDayTime.getTTimestamp());
+            updateWrapper.eq("t_area_id",mrReserveDayTime.getTAreaId());
             mrReserveDayTimeMapper.update(mrReserveDayTime,updateWrapper);
         }
     }

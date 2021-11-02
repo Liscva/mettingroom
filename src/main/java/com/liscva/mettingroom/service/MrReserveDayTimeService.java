@@ -25,7 +25,7 @@ public interface MrReserveDayTimeService extends IService<MrReserveDayTime> {
 
     boolean hasDayTime(LocalDate localDate,int areaId);
 
-    List<MrReserveDayTime> getDayTimeList(DayTimeDto dayTimeDto);
+    List<MrReserveDayTime> getDayTimeList(int areaId,DayTimeDto dayTimeDto);
 
     void reserveDayTime(Integer reserveId,List<MrReserveDayTime> mrReserveDayTimes);
 

@@ -44,15 +44,16 @@ public class MrReserveServiceImpl extends ServiceImpl<MrReserveMapper, MrReserve
     @Override
     @Transactional
     public synchronized void reserveMettingRoom(ReserveDto reserveDto) {
+        int areaId =  reserveDto.getAreaId();
         //1.查询是否存该会议室
         MrArea mrArea = mrAreaMapper.selectById(reserveDto.getAreaId());
-        Assert.notNull(mrArea, "该会议室[{}]不存在,请联系管理员创建会议室", reserveDto.getAreaId());
+        Assert.notNull(mrArea, "该会议室[{}]不存在,请联系管理员创建会议室", areaId);
         //2.插入预约记录并返回预约ID
         MrReserve mrReserve = reserveDtoToMrReserve(reserveDto);
         mrReserveMapper.insert(mrReserve);
 
         //3.更新对应的时间节点为已预约
-        List<MrReserveDayTime> mrReserveDayTimeList = mrReserveDayTimeService.getDayTimeList(reserveDto.getDayTimeDto());
+        List<MrReserveDayTime> mrReserveDayTimeList = mrReserveDayTimeService.getDayTimeList(areaId,reserveDto.getDayTimeDto());
         Assert.notEmpty(mrReserveDayTimeList, "会议室在该时间段类未开放，请重新选择预约时间！");
 
         List<MrReserveDayTime> filterList = mrReserveDayTimeList.stream().filter(item -> item.getTReserveAfterId() != null || item.getTReserveBeforeId() != null).collect(Collectors.toList());

@@ -27,7 +27,6 @@ public class MrReserveDayTimeController {
      * 获取制定日期的预约信息
      * @author liscva
      * @date 2021/10/14 11:21
-     * @param day
      * @return com.liscva.framework.core.connect.FinalConnect
      */
     @GetMapping("/getReserveInfoByDayTime.htm")
