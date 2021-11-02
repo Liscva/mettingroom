@@ -1,13 +1,18 @@
 package com.liscva.mettingroom.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
+import com.liscva.mettingroom.entity.dto.IncreaseAreaDto;
+import com.liscva.mettingroom.entity.dto.SearchAreaDto;
 import com.liscva.mettingroom.entity.po.MrArea;
 import com.liscva.mettingroom.entity.vo.AreaInfo;
 import com.liscva.mettingroom.mapper.MrAreaMapper;
 import com.liscva.mettingroom.service.MrAreaService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -25,7 +30,15 @@ public class MrAreaServiceImpl extends ServiceImpl<MrAreaMapper, MrArea> impleme
     MrAreaMapper mrAreaMapper;
 
     @Override
-    public List<AreaInfo> findAreaList() {
-        return mrAreaMapper.findAreaList();
+    public List<AreaInfo> findAreaList(SearchAreaDto searchAreaDto) {
+        return mrAreaMapper.findAreaList(searchAreaDto);
+    }
+
+    @Override
+    public void increaseArea(IncreaseAreaDto increaseAreaDto) {
+        MrArea mrArea = new MrArea();
+        BeanUtils.copyProperties(increaseAreaDto,mrArea);
+        mrArea.setCreateTime(LocalDate.now().toString());
+        mrAreaMapper.insert(mrArea);
     }
 }

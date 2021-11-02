@@ -1,6 +1,7 @@
 package com.liscva.mettingroom.service;
 
 import com.liscva.mettingroom.entity.dto.DayTimeDto;
+import com.liscva.mettingroom.entity.dto.SearchReserveInfoDto;
 import com.liscva.mettingroom.entity.po.MrReserveDayTime;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.liscva.mettingroom.entity.vo.ReserveDayInfo;
@@ -20,13 +21,13 @@ public interface MrReserveDayTimeService extends IService<MrReserveDayTime> {
 
     void emptyTimeInput();
 
-    void emptyTimeInput(int dayCount);
+    void emptyTimeInput(int areaId);
 
-    boolean hasDayTime(LocalDate localDate);
+    boolean hasDayTime(LocalDate localDate,int areaId);
 
     List<MrReserveDayTime> getDayTimeList(DayTimeDto dayTimeDto);
 
     void reserveDayTime(Integer reserveId,List<MrReserveDayTime> mrReserveDayTimes);
 
-    List<ReserveDayInfo> getReserveInfoByDayTime(String day);
+    List<ReserveDayInfo> getReserveInfoByDayTime(SearchReserveInfoDto searchReserveInfoDto);
 }

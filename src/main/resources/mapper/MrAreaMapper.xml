@@ -4,5 +4,10 @@
 
     <select id="findAreaList" resultType="com.liscva.mettingroom.entity.vo.AreaInfo">
         select * from mr_area
+        <where>
+            <if test="areaName!=null and areaName!=''">
+                area_name like '%${areaName}%'
+            </if>
+        </where>
     </select>
 </mapper>
