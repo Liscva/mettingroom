@@ -72,7 +72,7 @@ create table mr_user
 create unique index mr_user_user_account_uindex
     on mr_user (user_account);
 
-INSERT INTO mr_user (user_account, user_password, user_status) VALUES (1,'root', 'e10adc3949ba59abbe56e057f20f883e', DEFAULT);
+INSERT INTO mr_user (user_account, user_password, user_status) VALUES ('root', 'e10adc3949ba59abbe56e057f20f883e', DEFAULT);
 
 create table mr_role
 (
