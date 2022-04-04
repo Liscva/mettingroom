@@ -25,16 +25,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.liscva</groupId>
-            <artifactId>liscva-core</artifactId>
-            <version>${liscva.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.liscva</groupId>
-            <artifactId>liscva-core-springweb</artifactId>
-            <version>${liscva.version}</version>
-        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
