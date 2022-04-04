@@ -25,7 +25,7 @@ public class SessionFilter implements Filter {
     //标示符：表示当前用户未登录(可根据自己项目需要改为json样式)
     String NO_LOGIN = "您还未登录";
 
-    //不需要登录就可以访问的路径(比如:注册登录等)
+    //不需要登录就可以访问的路径(比如:注册登录等)，可以自行配置到application.yml中
     String[] includeUrls = new String[]{"/mrUser/login.htm", "register"};
 
 
