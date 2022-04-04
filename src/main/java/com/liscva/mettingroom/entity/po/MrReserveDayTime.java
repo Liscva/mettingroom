@@ -38,4 +38,9 @@ public class MrReserveDayTime implements Serializable {
      */
     private Integer tReserveAfterId;
 
+    /**
+     * 当前时间戳所属的会议室
+     */
+    private Integer tAreaId;
+
 }

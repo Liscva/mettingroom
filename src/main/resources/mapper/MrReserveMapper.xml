@@ -5,6 +5,6 @@
     <select id="getCurrUserReserveDayList" resultType="java.lang.String">
         select distinct mrd.t_day_time from mr_reserve_day_time mrd
             left join mr_reserve mr on mr.reserve_id = mrd.t_reserve_after_id or mr.reserve_id = mrd.t_reserve_before_id
-        where mr.reserve_user = '${userCode}' and mrd.t_day_time like '${month}%'
+        where mr.reserve_user = '${userCode}' and mrd.t_day_time like '${month}%' and mrd.t_area_id = '${areaId}'
     </select>
 </mapper>

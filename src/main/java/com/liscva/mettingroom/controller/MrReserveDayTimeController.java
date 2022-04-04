@@ -3,6 +3,7 @@ package com.liscva.mettingroom.controller;
 
 import com.liscva.framework.core.connect.DefaultPublicConnect;
 import com.liscva.framework.core.connect.FinalConnect;
+import com.liscva.mettingroom.entity.dto.SearchReserveInfoDto;
 import com.liscva.mettingroom.service.MrReserveDayTimeService;
 import com.liscva.mettingroom.service.MrReserveService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,11 +27,10 @@ public class MrReserveDayTimeController {
      * 获取制定日期的预约信息
      * @author liscva
      * @date 2021/10/14 11:21
-     * @param day
      * @return com.liscva.framework.core.connect.FinalConnect
      */
     @GetMapping("/getReserveInfoByDayTime.htm")
-    public FinalConnect getReserveInfoByDayTime(String day){
-        return DefaultPublicConnect.of(mrReserveDayTimeService.getReserveInfoByDayTime(day));
+    public FinalConnect getReserveInfoByDayTime(SearchReserveInfoDto searchReserveInfoDto){
+        return DefaultPublicConnect.of(mrReserveDayTimeService.getReserveInfoByDayTime(searchReserveInfoDto));
     }
 }

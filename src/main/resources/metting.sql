@@ -51,8 +51,9 @@ create table mr_reserve_day_time
     t_timestamp varchar(5) null comment '当前时间点 如 08:30',
     t_reserve_before_id int null comment '当前时间戳前预约的ID',
     t_reserve_after_id int null comment '当前时间戳前预约的ID',
+    t_area_id int null comment '所属会议室',
     constraint mr_reserve_day_time_pk
-        unique (t_day_time, t_timestamp)
+        unique (t_day_time, t_timestamp,t_area_id)
 )
     comment '会议预约24小时预约表';
 

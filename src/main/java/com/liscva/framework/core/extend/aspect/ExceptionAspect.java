@@ -2,6 +2,7 @@ package com.liscva.framework.core.extend.aspect;
 
 import com.liscva.framework.core.ThrowStatus;
 import com.liscva.framework.core.exception.CoreException;
+import com.liscva.framework.core.exception.Exception;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;

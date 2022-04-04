@@ -36,5 +36,8 @@ public class MrArea implements Serializable {
      */
     private String areaExplication;
 
-
+    /**
+     * 会议室创建日期
+     */
+    private String createTime;
 }

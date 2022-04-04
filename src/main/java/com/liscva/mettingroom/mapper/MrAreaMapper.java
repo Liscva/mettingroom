@@ -1,5 +1,6 @@
 package com.liscva.mettingroom.mapper;
 
+import com.liscva.mettingroom.entity.dto.SearchAreaDto;
 import com.liscva.mettingroom.entity.po.MrArea;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.liscva.mettingroom.entity.vo.AreaInfo;
@@ -16,5 +17,5 @@ import java.util.List;
  */
 public interface MrAreaMapper extends BaseMapper<MrArea> {
 
-    List<AreaInfo> findAreaList();
+    List<AreaInfo> findAreaList(SearchAreaDto searchAreaDto);
 }

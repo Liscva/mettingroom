@@ -7,9 +7,14 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.liscva.framework.core.ThrowStatus;
 import com.liscva.framework.core.exception.CoreException;
 import com.liscva.mettingroom.entity.dto.DayTimeDto;
+import com.liscva.mettingroom.entity.dto.SearchAreaDto;
+import com.liscva.mettingroom.entity.dto.SearchReserveInfoDto;
+import com.liscva.mettingroom.entity.po.MrArea;
 import com.liscva.mettingroom.entity.po.MrConfig;
 import com.liscva.mettingroom.entity.po.MrReserveDayTime;
+import com.liscva.mettingroom.entity.vo.AreaInfo;
 import com.liscva.mettingroom.entity.vo.ReserveDayInfo;
+import com.liscva.mettingroom.mapper.MrAreaMapper;
 import com.liscva.mettingroom.mapper.MrReserveDayTimeMapper;
 import com.liscva.mettingroom.mapper.MrReserveMapper;
 import com.liscva.mettingroom.service.MrConfigService;
@@ -45,29 +50,38 @@ public class MrReserveDayTimeServiceImpl extends ServiceImpl<MrReserveDayTimeMap
     MrReserveMapper reserveMapper;
 
     @Resource
+    MrAreaMapper mrAreaMapper;
+    @Resource
     MrReserveDayTimeMapper mrReserveDayTimeMapper;
 
     @Override
     public void emptyTimeInput() {
-        MrConfig mrConfig = mrConfigService.queryMrConfigByConfigCode("advanceDayTime");
-        emptyTimeInput(Integer.parseInt(mrConfig.getConfigValue()));
+        List<AreaInfo> mrAreas = mrAreaMapper.findAreaList(new SearchAreaDto());
+        mrAreas.stream().forEach(item->{
+            emptyTimeInput(item.getAreaId());
+        });
     }
 
     @Override
-    public synchronized void emptyTimeInput(int dayCount) {
+    public void emptyTimeInput(int areaId) {
+        MrConfig mrConfig = mrConfigService.queryMrConfigByConfigCode("advanceDayTime");
+        emptyTimeInput(areaId,Integer.parseInt(mrConfig.getConfigValue()));
+    }
+
+    public synchronized void emptyTimeInput(int areaId,int dayCount) {
         List<MrReserveDayTime> dayList = new ArrayList<>();
         for (int i = 0; i <= dayCount; i++) {
             LocalDate localDate = LocalDate.now().plusDays(i);
-            if (!hasDayTime(localDate)) {
+            if (!hasDayTime(localDate,areaId)) {
                 String day = localDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-                configDayList(day, dayList);
+                configDayList(day, dayList ,areaId);
             }
         }
         saveBatch(dayList);
     }
 
 
-    private void configDayList(String day, List<MrReserveDayTime> dayList) {
+    private void configDayList(String day, List<MrReserveDayTime> dayList, int areaId) {
         try {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
             String mettingBeginTime = mrConfigService.queryMrConfigValueByConfigCode("mettingBeginTime");
@@ -84,6 +98,7 @@ public class MrReserveDayTimeServiceImpl extends ServiceImpl<MrReserveDayTimeMap
                 mrReserveDayTime.setTDayTime(day);
                 String timestamp = simpleDateFormat.format(now.getTime());
                 mrReserveDayTime.setTTimestamp(timestamp);
+                mrReserveDayTime.setTAreaId(areaId);
                 dayList.add(mrReserveDayTime);
                 now.add(Calendar.MINUTE, Integer.parseInt(intervalTime));
             } while (now.before(end)||now.equals(end));
@@ -93,15 +108,16 @@ public class MrReserveDayTimeServiceImpl extends ServiceImpl<MrReserveDayTimeMap
     }
 
     @Override
-    public boolean hasDayTime(LocalDate localDate) {
+    public boolean hasDayTime(LocalDate localDate,int areaId) {
         QueryWrapper queryWrapper = new QueryWrapper();
         queryWrapper.eq("t_day_time", localDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        queryWrapper.eq("t_area_id", areaId);
         List<MrReserveDayTime> mrReserveDayTimes = mrReserveDayTimeMapper.selectList(queryWrapper);
         return CollectionUtil.isNotEmpty(mrReserveDayTimes);
     }
 
     @Override
-    public List<MrReserveDayTime> getDayTimeList(DayTimeDto dayTimeDto) {
+    public List<MrReserveDayTime> getDayTimeList(int areaId,DayTimeDto dayTimeDto) {
         String mettingBeginTime = dayTimeDto.getStartTime();
         if(StrUtil.isEmpty(mettingBeginTime))
             mettingBeginTime = mrConfigService.queryMrConfigValueByConfigCode("mettingBeginTime");
@@ -112,6 +128,7 @@ public class MrReserveDayTimeServiceImpl extends ServiceImpl<MrReserveDayTimeMap
         queryWrapper.eq("t_day_time",dayTimeDto.getDay());
         queryWrapper.ge("t_timestamp",mettingBeginTime);
         queryWrapper.le("t_timestamp",mettingEndTime);
+        queryWrapper.le("t_area_id",areaId);
         return mrReserveDayTimeMapper.selectList(queryWrapper);
     }
 
@@ -130,6 +147,7 @@ public class MrReserveDayTimeServiceImpl extends ServiceImpl<MrReserveDayTimeMap
             UpdateWrapper updateWrapper = new UpdateWrapper();
             updateWrapper.eq("t_day_time",mrReserveDayTime.getTDayTime());
             updateWrapper.eq("t_timestamp",mrReserveDayTime.getTTimestamp());
+            updateWrapper.eq("t_area_id",mrReserveDayTime.getTAreaId());
             mrReserveDayTimeMapper.update(mrReserveDayTime,updateWrapper);
         }
     }
@@ -137,9 +155,10 @@ public class MrReserveDayTimeServiceImpl extends ServiceImpl<MrReserveDayTimeMap
 
 
     @Override
-    public List<ReserveDayInfo> getReserveInfoByDayTime(String day) {
+    public List<ReserveDayInfo> getReserveInfoByDayTime(SearchReserveInfoDto searchReserveInfoDto) {
         QueryWrapper queryWrapper = new QueryWrapper();
-        queryWrapper.eq("t_day_time",day);
+        queryWrapper.eq("t_day_time",searchReserveInfoDto.getDay());
+        queryWrapper.eq("t_area_id",searchReserveInfoDto.getAreaId());
         List<MrReserveDayTime> mrReserveDayTimes = mrReserveDayTimeMapper.selectList(queryWrapper);
         List<ReserveDayInfo> reserveDayInfoList = new ArrayList<>();
         ReserveDayInfo reserveDayInfo = null;
