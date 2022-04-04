@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * @author 李诗诚
  * @date 2020/7/7 12:01
- * controller统一异常处理,目前放到网关去了，这里暂时废弃
+ * controller统一异常处理
  */
 @RestControllerAdvice
 @Slf4j(topic = "controller统一异常处理")
