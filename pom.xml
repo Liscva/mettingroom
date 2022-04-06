@@ -17,7 +17,7 @@
         <java.version>1.8</java.version>
         <mybatis-plus.version>3.4.1</mybatis-plus.version>
         <druid-datasource-version>1.1.10</druid-datasource-version>
-        <hutool.version>5.6.3</hutool.version>
+        <hutool.version>5.7.5</hutool.version>
         <liscva.version>0.0.1</liscva.version>
     </properties>
     <dependencies>
@@ -25,15 +25,20 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+        <!-- springboot启动器依赖 -->
+        <dependency>
+            <groupId>com.liscva</groupId>
+            <artifactId>liscva-security-spring-boot-starter</artifactId>
+            <version>0.0.1</version>
+        </dependency>
 
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.mybatis.spring.boot</groupId>
-            <artifactId>mybatis-spring-boot-starter</artifactId>
-            <version>2.2.0</version>
         </dependency>
 
         <dependency>
@@ -59,6 +64,11 @@
         </dependency>
         <!-- mybatis plus  -->
         <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+            <version>2.2.0</version>
+        </dependency>
+        <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
             <version>${mybatis-plus.version}</version>
@@ -68,6 +78,7 @@
             <artifactId>mybatis-plus-generator</artifactId>
             <version>${mybatis-plus.version}</version>
         </dependency>
+
         <!-- Json Begin -->
         <dependency>
             <groupId>com.alibaba</groupId>
@@ -75,6 +86,7 @@
             <version>1.2.62</version>
         </dependency>
         <!-- Json End -->
+
         <dependency>
             <groupId>org.freemarker</groupId>
             <artifactId>freemarker</artifactId>
@@ -86,6 +98,7 @@
             <artifactId>druid-spring-boot-starter</artifactId>
             <version>${druid-datasource-version}</version>
         </dependency>
+
         <!--jsr 303 验证-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -1,9 +1,10 @@
-package com.liscva.framework.core.lang;
+package com.liscva.mettingroom.utils;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import com.liscva.framework.core.ThrowStatus;
+import com.liscva.framework.core.exception.AssertException;
 import com.liscva.framework.core.exception.CoreException;
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,11 +18,11 @@ import java.util.Map;
  * @author Looly
  */
 @Slf4j
-public class Assert {
+public class LspAssert {
 
 	public static void throwAssertException(String message){
 	    log.error(message);
-		CoreException.build(ThrowStatus.ASSERT_ERR, message);
+		AssertException.throwBy(true, message);
 	}
 
     /**
@@ -126,7 +127,7 @@ public class Assert {
      * 断言对象是否不为{@code null} ，如果为{@code null} 抛出{@link CoreException} 异常 Assert that an object is not {@code null} .
      *
      * <pre class="code">
-     * Assert.notNull(clazz, "The class must not be null");
+     * LspAssert.notNull(clazz, "The class must not be null");
      * </pre>
      *
      * @param <T>              被检查对象泛型类型
@@ -147,7 +148,7 @@ public class Assert {
      * 断言对象是否不为{@code null} ，如果为{@code null} 抛出{@link CoreException} 异常
      *
      * <pre class="code">
-     * Assert.notNull(clazz);
+     * LspAssert.notNull(clazz);
      * </pre>
      *
      * @param <T>    被检查对象类型

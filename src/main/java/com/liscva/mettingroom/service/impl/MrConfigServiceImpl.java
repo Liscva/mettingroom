@@ -2,7 +2,9 @@ package com.liscva.mettingroom.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.liscva.framework.core.ThrowStatus;
+import com.liscva.framework.core.exception.CoreException;
 import com.liscva.framework.core.exception.Exception;
+import com.liscva.framework.core.exception.NoSysConfigException;
 import com.liscva.mettingroom.entity.po.MrConfig;
 import com.liscva.mettingroom.mapper.MrConfigMapper;
 import com.liscva.mettingroom.service.MrConfigService;
@@ -26,14 +28,17 @@ public class MrConfigServiceImpl extends ServiceImpl<MrConfigMapper, MrConfig> i
     MrConfigMapper mrConfigMapper;
 
     @Override
+    @Exception(code = 404404,msg = "{configCode}配置不存在")
     public MrConfig queryMrConfigByConfigCode(String configCode) {
+        if(configCode!=null){
+            throw new NoSysConfigException();
+        }
         QueryWrapper queryWrapper = new QueryWrapper();
         queryWrapper.eq("config_code",configCode);
         return mrConfigMapper.selectOne(queryWrapper);
     }
 
     @Override
-    @Exception(ThrowStatus.SYSCONFIG_NULL_ERROR)
     public String queryMrConfigValueByConfigCode(String configCode) {
         return queryMrConfigByConfigCode(configCode).getConfigValue();
     }

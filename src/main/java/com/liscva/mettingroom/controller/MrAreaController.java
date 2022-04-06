@@ -3,6 +3,7 @@ package com.liscva.mettingroom.controller;
 
 import com.liscva.framework.core.connect.DefaultPublicConnect;
 import com.liscva.framework.core.connect.FinalConnect;
+import com.liscva.framework.security.annotation.CheckLogin;
 import com.liscva.mettingroom.entity.dto.IncreaseAreaDto;
 import com.liscva.mettingroom.entity.dto.SearchAreaDto;
 import com.liscva.mettingroom.service.MrAreaService;
@@ -26,6 +27,7 @@ import javax.validation.Valid;
  */
 @RestController
 @RequestMapping("/mrArea")
+@CheckLogin
 public class MrAreaController {
 
     @Autowired
@@ -40,7 +42,7 @@ public class MrAreaController {
     @PostMapping("/increaseArea.htm")
     public FinalConnect increaseArea(@Valid @RequestBody IncreaseAreaDto increaseAreaDto){
         mrAreaService.increaseArea(increaseAreaDto);
-        return DefaultPublicConnect.ofMsg("新增完毕");
+        return DefaultPublicConnect.ok("新增完毕");
     }
 
 

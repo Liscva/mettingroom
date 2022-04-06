@@ -1,7 +1,6 @@
 package com.liscva.mettingroom.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.liscva.framework.core.lang.Assert;
 import com.liscva.mettingroom.entity.dto.CurrUserReserveDayListSearchDto;
 import com.liscva.mettingroom.entity.dto.ReserveDto;
 import com.liscva.mettingroom.entity.po.MrArea;
@@ -12,6 +11,7 @@ import com.liscva.mettingroom.mapper.MrReserveMapper;
 import com.liscva.mettingroom.service.MrReserveDayTimeService;
 import com.liscva.mettingroom.service.MrReserveService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.liscva.mettingroom.utils.LspAssert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,17 +47,17 @@ public class MrReserveServiceImpl extends ServiceImpl<MrReserveMapper, MrReserve
         int areaId =  reserveDto.getAreaId();
         //1.查询是否存该会议室
         MrArea mrArea = mrAreaMapper.selectById(reserveDto.getAreaId());
-        Assert.notNull(mrArea, "该会议室[{}]不存在,请联系管理员创建会议室", areaId);
+        LspAssert.notNull(mrArea, "该会议室[{}]不存在,请联系管理员创建会议室", areaId);
         //2.插入预约记录并返回预约ID
         MrReserve mrReserve = reserveDtoToMrReserve(reserveDto);
         mrReserveMapper.insert(mrReserve);
 
         //3.更新对应的时间节点为已预约
         List<MrReserveDayTime> mrReserveDayTimeList = mrReserveDayTimeService.getDayTimeList(areaId,reserveDto.getDayTimeDto());
-        Assert.notEmpty(mrReserveDayTimeList, "会议室在该时间段类未开放，请重新选择预约时间！");
+        LspAssert.notEmpty(mrReserveDayTimeList, "会议室在该时间段类未开放，请重新选择预约时间！");
 
         List<MrReserveDayTime> filterList = mrReserveDayTimeList.stream().filter(item -> item.getTReserveAfterId() != null || item.getTReserveBeforeId() != null).collect(Collectors.toList());
-        Assert.isTrue(CollectionUtil.isEmpty(filterList) || filterList.size() <= 1, "该会议室时间段预约冲突,请重新检查预约时间");
+        LspAssert.isTrue(CollectionUtil.isEmpty(filterList) || filterList.size() <= 1, "该会议室时间段预约冲突,请重新检查预约时间");
 
         mrReserveDayTimeService.reserveDayTime(mrReserve.getReserveId(), mrReserveDayTimeList);
     }

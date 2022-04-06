@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.liscva.framework.core.ThrowStatus;
 import com.liscva.framework.core.exception.CoreException;
+import com.liscva.framework.core.exception.NoSysConfigException;
 import com.liscva.mettingroom.entity.dto.DayTimeDto;
 import com.liscva.mettingroom.entity.dto.SearchAreaDto;
 import com.liscva.mettingroom.entity.dto.SearchReserveInfoDto;
@@ -103,7 +104,7 @@ public class MrReserveDayTimeServiceImpl extends ServiceImpl<MrReserveDayTimeMap
                 now.add(Calendar.MINUTE, Integer.parseInt(intervalTime));
             } while (now.before(end)||now.equals(end));
         }catch (Exception e){
-            throw CoreException.build(ThrowStatus.SYSCONFIG_NULL_ERROR,e);
+            throw new NoSysConfigException(e);
         }
     }
 

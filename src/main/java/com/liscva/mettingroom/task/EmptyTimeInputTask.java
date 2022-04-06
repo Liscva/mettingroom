@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.Scheduled;
 
-import javax.annotation.Resource;
-
 
 /**
  * 在表中插入空闲的日期数据，方便后来人预约
