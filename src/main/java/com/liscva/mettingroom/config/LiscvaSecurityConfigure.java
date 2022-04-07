@@ -42,7 +42,7 @@ public class LiscvaSecurityConfigure implements WebMvcConfigurer {
         		
         		// 认证函数: 每次请求执行 
         		.setAuth(obj -> {
-        			// System.out.println("---------- sa全局认证 " + SecurityHolder.getRequest().getRequestPath());
+        			// System.out.println("---------- 全局认证 " + SecurityHolder.getRequest().getRequestPath());
         			
         		})
         		
@@ -57,7 +57,7 @@ public class LiscvaSecurityConfigure implements WebMvcConfigurer {
         			// ---------- 设置一些安全响应头 ----------
         			SecurityHolder.getResponse()
         			// 服务器名称 
-        			.setServer("sa-server")
+        			.setServer("liscva-server")
         			// 是否可以在iframe显示视图： DENY=不可以 | SAMEORIGIN=同域下可以 | ALLOW-FROM uri=指定域名下可以 
         			.setHeader("X-Frame-Options", "SAMEORIGIN")
         			// 是否启用浏览器默认XSS防护： 0=禁用 | 1=启用 | 1; mode=block 启用, 并在检查到XSS攻击时，停止渲染页面
