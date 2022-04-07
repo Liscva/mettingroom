@@ -3,6 +3,8 @@ package com.liscva.mettingroom.controller;
 
 import com.liscva.framework.core.connect.DefaultPublicConnect;
 import com.liscva.framework.core.connect.FinalConnect;
+import com.liscva.framework.security.annotation.CheckLogin;
+import com.liscva.framework.security.context.SecurityHolder;
 import com.liscva.mettingroom.service.MrConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/mrConfig")
+@CheckLogin
 public class MrConfigController {
 
     @Autowired

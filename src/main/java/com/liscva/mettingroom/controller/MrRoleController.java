@@ -1,6 +1,7 @@
 package com.liscva.mettingroom.controller;
 
 
+import com.liscva.framework.security.annotation.CheckLogin;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/mrRole")
+@CheckLogin
 public class MrRoleController {
 
 }

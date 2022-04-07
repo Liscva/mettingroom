@@ -56,7 +56,7 @@ public class MrUserServiceImpl extends ServiceImpl<MrUserMapper, MrUser> impleme
         queryWrapper.eq("user_password", SecureUtil.md5(loginDto.getUserPassword()));
         queryWrapper.eq("user_status", USER_STATUS_ENABLE);
         MrUser mrUser = mrUserMapper.selectOne(queryWrapper);
-        LspAssert.notNull(mrUser,"用户名或密码错误！");
+        LspAssert.notNull(mrUser,"查询不到用户信息，请检查用户名或密码！");
         MrUserInfo mrUserInfo = userInfoService.findUserInfoByCode(mrUser.getUserCode());
         BeanUtils.copyProperties(mrUserInfo,userInfo);
         return userInfo;
@@ -75,7 +75,6 @@ public class MrUserServiceImpl extends ServiceImpl<MrUserMapper, MrUser> impleme
         mrUser.setUserPassword(SecureUtil.md5(mrUser.getUserPassword()));
         mrUserMapper.insert(mrUser);
         mrUserInfo.setUserCode(mrUser.getUserCode());
-        mrUserInfo.setCreateTime(LocalDate.now().toString());
         userInfoService.save(mrUserInfo);
     }
 

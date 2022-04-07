@@ -3,6 +3,9 @@ package com.liscva.mettingroom.controller;
 
 import com.liscva.framework.core.connect.DefaultPublicConnect;
 import com.liscva.framework.core.connect.FinalConnect;
+import com.liscva.framework.security.annotation.CheckLogin;
+import com.liscva.framework.security.lsp.LspUtil;
+import com.liscva.framework.security.lsp.SecurityInfo;
 import com.liscva.mettingroom.cache.Cache;
 import com.liscva.mettingroom.cache.SessionCache;
 import com.liscva.mettingroom.entity.dto.DeleteUserDto;
@@ -44,8 +47,9 @@ public class MrUserController {
     @PostMapping("/login.htm")
     public FinalConnect login(HttpServletRequest request,@Valid @RequestBody LoginDto loginDto ){
         UserInfo userInfo = mrUserService.login(loginDto);
-        Cache cache = new SessionCache(request);
-        cache.setCache("curruser",userInfo);
+        LspUtil.login(userInfo.getUserCode());
+        SecurityInfo tokenInfo = LspUtil.getTokenInfo();
+        userInfo.setSecurityInfo(tokenInfo);
         return DefaultPublicConnect.of(userInfo);
     }
 
@@ -58,11 +62,13 @@ public class MrUserController {
 
 
     @GetMapping("/findUserList.htm")
+    @CheckLogin
     public FinalConnect findUserList(SearchUserDto searchUserDto){
         return DefaultPublicConnect.of(mrUserService.findUserList(searchUserDto));
     }
 
     @PostMapping("/resetPassword.htm")
+    @CheckLogin
     public FinalConnect resetPassword(@Valid @RequestBody ResetPwdUserDto resetPwdUserDto ){
         mrUserService.resetPassword(resetPwdUserDto);
         return DefaultPublicConnect.of("重置成功,默认密码123456");
@@ -71,12 +77,14 @@ public class MrUserController {
 
 
     @PostMapping("/deleteUser.htm")
+    @CheckLogin
     public FinalConnect deleteUser(@Valid @RequestBody DeleteUserDto deleteUserDto ){
         mrUserService.deleteUser(deleteUserDto);
         return DefaultPublicConnect.of("删除成功！");
     }
 
     @PostMapping("/editUser.htm")
+    @CheckLogin
     public FinalConnect editUser(@Valid @RequestBody EditUserDto editUserDto ){
         mrUserService.editUser(editUserDto);
         return DefaultPublicConnect.of("修改成功！");

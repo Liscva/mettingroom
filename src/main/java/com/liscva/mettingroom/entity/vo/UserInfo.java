@@ -1,5 +1,6 @@
 package com.liscva.mettingroom.entity.vo;
 
+import com.liscva.framework.security.lsp.SecurityInfo;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -36,5 +37,10 @@ public class UserInfo implements Serializable {
      * 用户创建日期
      */
     private String createTime;
+
+    /**
+     * securityInfo登录信息
+     */
+    private SecurityInfo securityInfo;
 
 }

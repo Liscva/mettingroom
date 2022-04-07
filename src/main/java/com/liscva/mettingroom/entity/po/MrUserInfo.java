@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+
+import com.liscva.mettingroom.entity.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -18,7 +20,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class MrUserInfo implements Serializable {
+public class MrUserInfo extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 
@@ -43,10 +45,5 @@ public class MrUserInfo implements Serializable {
      */
     private String userPhone;
 
-
-    /**
-     * 用户创建日期
-     */
-    private String createTime;
 
 }

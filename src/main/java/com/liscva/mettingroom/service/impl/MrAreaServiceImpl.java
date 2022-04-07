@@ -37,7 +37,6 @@ public class MrAreaServiceImpl extends ServiceImpl<MrAreaMapper, MrArea> impleme
     public void increaseArea(IncreaseAreaDto increaseAreaDto) {
         MrArea mrArea = new MrArea();
         BeanUtils.copyProperties(increaseAreaDto,mrArea);
-        mrArea.setCreateTime(LocalDate.now().toString());
         mrAreaMapper.insert(mrArea);
     }
 }

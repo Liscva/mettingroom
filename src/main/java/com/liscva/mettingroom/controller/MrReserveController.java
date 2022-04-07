@@ -3,6 +3,7 @@ package com.liscva.mettingroom.controller;
 
 import com.liscva.framework.core.connect.DefaultPublicConnect;
 import com.liscva.framework.core.connect.FinalConnect;
+import com.liscva.framework.security.annotation.CheckLogin;
 import com.liscva.mettingroom.entity.dto.CurrUserReserveDayListSearchDto;
 import com.liscva.mettingroom.entity.dto.ReserveDto;
 import com.liscva.mettingroom.service.MrReserveService;
@@ -24,6 +25,7 @@ import javax.validation.Valid;
  */
 @RestController
 @RequestMapping("/mrReserve")
+@CheckLogin
 public class MrReserveController {
 
     @Autowired

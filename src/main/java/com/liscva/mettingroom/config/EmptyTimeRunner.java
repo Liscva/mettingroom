@@ -21,6 +21,6 @@ public class EmptyTimeRunner implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         log.info("加载会议可预约时间");
-//        mrReserveDayTimeService.emptyTimeInput();
+        mrReserveDayTimeService.emptyTimeInput();
     }
 }

@@ -28,11 +28,8 @@ public class MrConfigServiceImpl extends ServiceImpl<MrConfigMapper, MrConfig> i
     MrConfigMapper mrConfigMapper;
 
     @Override
-    @Exception(code = 404404,msg = "{configCode}配置不存在")
+    @Exception(code = 404404,msg = "查找{configCode}系统配置异常")
     public MrConfig queryMrConfigByConfigCode(String configCode) {
-        if(configCode!=null){
-            throw new NoSysConfigException();
-        }
         QueryWrapper queryWrapper = new QueryWrapper();
         queryWrapper.eq("config_code",configCode);
         return mrConfigMapper.selectOne(queryWrapper);

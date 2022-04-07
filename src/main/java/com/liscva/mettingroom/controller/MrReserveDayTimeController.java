@@ -3,6 +3,7 @@ package com.liscva.mettingroom.controller;
 
 import com.liscva.framework.core.connect.DefaultPublicConnect;
 import com.liscva.framework.core.connect.FinalConnect;
+import com.liscva.framework.security.annotation.CheckLogin;
 import com.liscva.mettingroom.entity.dto.SearchReserveInfoDto;
 import com.liscva.mettingroom.service.MrReserveDayTimeService;
 import com.liscva.mettingroom.service.MrReserveService;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/mrReserveDayTime")
+@CheckLogin
 public class MrReserveDayTimeController {
     @Autowired
     MrReserveDayTimeService mrReserveDayTimeService;

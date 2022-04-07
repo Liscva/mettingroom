@@ -3,6 +3,11 @@ create table mr_area
     area_id int auto_increment comment '区域ID主键',
     area_name nvarchar(20) not null comment '区域名称',
     area_explication nvarchar(200) null comment '区域说明文字',
+    `del_flag` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'N' COMMENT '删除标记：Y-已删除，N-未删除',
+    `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+    `create_user` bigint(20) NULL DEFAULT NULL COMMENT '创建人',
+    `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+    `update_user` bigint(20) NULL DEFAULT NULL COMMENT '更新人',
     constraint mr_area_pk
         primary key (area_id)
 )
@@ -21,6 +26,10 @@ create table mr_config
     config_code varchar(20) null comment '配置代码',
     config_value nvarchar(50) null comment '配置值',
     config_remark nvarchar(200) null comment '配置说明',
+    `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+    `create_user` bigint(20) NULL DEFAULT NULL COMMENT '创建人',
+    `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+    `update_user` bigint(20) NULL DEFAULT NULL COMMENT '更新人',
     constraint mr_config_pk
         primary key (config_id)
 )
@@ -41,6 +50,10 @@ create table mr_reserve
     reserve_todo nvarchar(300) null comment '预约会议室要干的事情',
     reserve_area_id int null comment '预约的会议室ID',
     reserve_time datetime comment '预约时间',
+    `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+    `create_user` bigint(20) NULL DEFAULT NULL COMMENT '创建人',
+    `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+    `update_user` bigint(20) NULL DEFAULT NULL COMMENT '更新人',
     constraint mr_reserve_pk
         primary key (reserve_id)
 )
@@ -66,6 +79,11 @@ create table mr_user
     user_account varchar(30) not null comment '用户登录名',
     user_password varchar(36) null comment '用户加密密码',
     user_status int default 0 null comment '用户状态,默认0启动，1禁用,2删除',
+    `del_flag` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'N' COMMENT '删除标记：Y-已删除，N-未删除',
+    `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+    `create_user` bigint(20) NULL DEFAULT NULL COMMENT '创建人',
+    `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+    `update_user` bigint(20) NULL DEFAULT NULL COMMENT '更新人',
     constraint mr_user_pk
         primary key (user_code)
 )
@@ -80,7 +98,12 @@ create table mr_role
 (
     role_code int auto_increment comment '角色编码',
     role_name varchar(30) not null comment '角色名称',
-    role_status int null comment '角色状态 默认0启用， 1禁用，2删除',
+    role_status int null DEFAULT 0 comment '角色状态 默认0启用， 1禁用，2删除',
+    `del_flag` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'N' COMMENT '删除标记：Y-已删除，N-未删除',
+    `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+    `create_user` bigint(20) NULL DEFAULT NULL COMMENT '创建人',
+    `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+    `update_user` bigint(20) NULL DEFAULT NULL COMMENT '更新人',
     constraint mr_role_pk
         primary key (role_code)
 )
@@ -98,6 +121,10 @@ create table mr_auth
     auth_code int auto_increment comment '权限代码',
     auth_name varchar(50) not null comment '权限名称',
     auth_remark nvarchar(200) null comment '权限备注',
+    `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+    `create_user` bigint(20) NULL DEFAULT NULL COMMENT '创建人',
+    `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+    `update_user` bigint(20) NULL DEFAULT NULL COMMENT '更新人',
     constraint mr_auth_pk
         primary key (auth_code)
 );
@@ -138,7 +165,10 @@ create table mr_user_info
     user_name nvarchar(20) null comment '用户姓名',
     user_email varchar(36) null comment '用户邮箱',
     user_phone varchar(11) null comment '用户手机号 11位',
-    create_time date null comment '创建日期',
+    `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+    `create_user` bigint(20) NULL DEFAULT NULL COMMENT '创建人',
+    `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+    `update_user` bigint(20) NULL DEFAULT NULL COMMENT '更新人',
     constraint mr_user_info_mr_user_user_code_fk
         foreign key (user_code) references mr_user (user_code)
 )

@@ -3,6 +3,8 @@ package com.liscva.mettingroom.entity.po;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+
+import com.liscva.mettingroom.entity.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -16,7 +18,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class MrArea implements Serializable {
+public class MrArea extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 
@@ -35,9 +37,4 @@ public class MrArea implements Serializable {
      * 区域说明文字
      */
     private String areaExplication;
-
-    /**
-     * 会议室创建日期
-     */
-    private String createTime;
 }
